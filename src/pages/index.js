@@ -1,27 +1,13 @@
-import Lenis from "@studio-freight/lenis";
-import Image from "next/image";
 import React from "react";
+import Image from "next/image";
 import { gsap } from "gsap/dist/gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import Link from "next/link";
+import Work from "@/components/Work";
 
 export default function Scroll() {
+  const [active, setActive] = React.useState(0);
+
   React.useEffect(() => {
-    const lenis = new Lenis();
-
-    lenis.on("scroll", ScrollTrigger.update);
-
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-
-    requestAnimationFrame(raf);
-
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
-
     gsap.registerPlugin(ScrollTrigger);
 
     gsap.to(".section-columns", {
@@ -60,7 +46,6 @@ export default function Scroll() {
     gsap.to(".image", {
       scale: 2.5,
       duration: 1,
-      filter: "grayscale(0)",
       scrollTrigger: {
         trigger: "main",
         start: "top top",
@@ -69,15 +54,17 @@ export default function Scroll() {
       },
     });
 
-    gsap.to(".work li", {
-      opacity: 1,
-      stagger: 0.3,
-      duration: 2,
+    gsap.to(".image", {
+      duration: 1,
+      filter: "grayscale(0)",
       scrollTrigger: {
-        trigger: ".work li",
+        trigger: "main",
+        start: "20% top",
+        end: "bottom bottom",
+        scrub: 0.1,
       },
     });
-  }, []);
+  });
 
   return (
     <main className="flex flex-col items-center justify-center">
@@ -153,27 +140,7 @@ export default function Scroll() {
         </div>
       </section>
 
-      <section className="w-full h-screen bg-[#17181c] flex flex-col items-center justify-center">
-        <h1 className="text-6xl font-bellefair">Our work</h1>
-        <ul id="work" className="flex gap-8 mt-16 work w-[1300px]">
-          {firstColumn.map(({ src, id }, index) => (
-            <li
-              key={src}
-              className={`overflow-hidden rounded-xl group opacity-0 `}
-            >
-              <Link href={`/work/${id}`}>
-                <Image
-                  src={src}
-                  width={300}
-                  height={320}
-                  alt=""
-                  className="object-cover grayscale group-hover:grayscale-0 transition duration-300 ease-in-out w-[300px] h-[450px] "
-                />
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <Work active={active} setActive={setActive} />
     </main>
   );
 }
@@ -181,27 +148,51 @@ export default function Scroll() {
 export const firstColumn = [
   {
     id: 1,
+    title: "Majestic Castle: A Glimpse into History",
     description:
       "This stunning picture captures the essence of a majestic castle, standing tall and proud against a backdrop of rolling hills and a clear blue sky. The castle's impressive stone walls and turrets evoke a sense of history and grandeur, while the lush greenery and vibrant flowers surrounding it add a touch of natural beauty. The image is a testament to the enduring allure of castles, and invites the viewer to imagine the stories and secrets hidden within its walls.",
+    description2:
+      "Amidst the clouds, a fortress grand, Its walls of stone, a mighty stand, The ancient keep, with towers high, A symbol of power, touching the sky. With flags that wave, in the winds so bold, The castle tells a tale of old, Of knights and kings, and battles won, Of honor and valor, by sword and gun. The gates now open, to those who seek, The secrets held, within the keep, A glimpse of history, a timeless tale, Of a castle grand, that will never fail.",
     src: "https://images.unsplash.com/photo-1679926398477-c35c89ba1da7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=685&q=80",
+    large:
+      "https://images.unsplash.com/photo-1594735514819-6bdb44c65772?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+    bg: "https://images.unsplash.com/reserve/0y86gz4sT4O2ZQJIRWXE_IMG_0476.JPG?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
   },
   {
     id: 2,
+    title: "A Vintage Ride Through Time",
     description:
       "The photo depicts an old bicycle parked on a quaint cobblestone street. The weathered, vintage bicycle frame is adorned with a rustic basket filled with fresh flowers, adding a touch of charm to the scene. The background shows a row of historic buildings, creating a sense of nostalgia and warmth. The overall image evokes a feeling of simplicity and tranquility, reminiscent of a bygone era.",
+    description2:
+      "Amidst the worn cobblestone street, An aged bicycle stands tall and neat. Its vintage charm a sight to behold, A story of the past it has told. The rusty frame and worn-out tires, Evoke memories of bygone desires. The old bike, a relic of its time, Is now a symbol of nostalgia and rhyme. In the silent street, it stands alone, A testament to days that have flown. A treasure from another age, he old bike, a true heritage.",
     src: "https://images.unsplash.com/photo-1679927341810-6032f01ca354?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+    large:
+      "https://images.unsplash.com/photo-1604674748495-9f777bf84302?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+    bg: "https://images.unsplash.com/photo-1536690004207-14d94d9abad2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80",
   },
   {
     id: 3,
+    title: "Two Dogs in a Winter Wonderland",
     description:
       "In this picturesque scene, two furry companions can be seen joyfully pulling a sled through a blanket of pristine snow. The larger of the two dogs is harnessed in the front, leading the way with determination, while the smaller one follows obediently behind. Their tongues are lolling out of their mouths in excitement, and their tails are wagging furiously as they revel in the winter wonderland around them. The sled, laden with supplies, creates a trail of tracks behind them, as they disappear into the distance, eager to explore the snowy landscape ahead.",
+    description2:
+      "As snowflakes dance in the air, Two furry friends brave the winter glare. Their coats a contrast against the white, As they pull their sled with all their might. Their paws leave prints in the snow, As they venture where few dare to go. The silence broken only by their breath, A testament to their teamwork and strength. Amidst the frozen beauty all around, These two dogs are the only sound. In this winter wonderland, they're a sight to see, A true embodiment of loyalty and glee.",
     src: "https://images.unsplash.com/photo-1679888669342-d37cad2050d3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+    large:
+      "https://images.unsplash.com/photo-1540092634799-a937b758282a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80",
+    bg: "https://images.unsplash.com/photo-1647374916415-d9b89f985bb6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1538&q=80",
   },
   {
     id: 4,
+    title: "Sands of the Desert: Exploring the Barren Beauty",
     description:
       "The picture shows a vast expanse of desert with undulating sand dunes as far as the eye can see. The barren landscape is bathed in the golden light of the sun, casting deep shadows that highlight the rugged terrain. The clear blue sky above stretches out into infinity, creating a sense of endlessness and solitude. The stark beauty of the desert is captured in this stunning image, evoking a sense of awe and wonder in the viewer.",
+    description2:
+      "A vast expanse of golden sand stretches as far as the eye can see, under an endless sky of deep blue. The stillness is punctuated only by the occasional rustle of the wind and the distant cry of a lone bird. Yet, in this apparent lifelessness, a hidden beauty lies. The gentle curves of the dunes, the intricate patterns etched into the sand, and the subtle changes of color throughout the day, all combine to create a barren beauty that is both stark and breathtaking.",
     src: "https://images.unsplash.com/photo-1679847727418-33ef58d86ebe?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+    large:
+      "https://images.unsplash.com/photo-1596625820723-f0f481ff80be?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+    bg: "https://images.unsplash.com/photo-1516074269859-f54ee0d65fa7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80",
   },
 ];
 const secondColumn = [
