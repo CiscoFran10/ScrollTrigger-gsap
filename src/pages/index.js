@@ -5,8 +5,6 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import Work from "@/components/Work";
 
 export default function Scroll() {
-  const [active, setActive] = React.useState(0);
-
   React.useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -140,7 +138,7 @@ export default function Scroll() {
         </div>
       </section>
 
-      <Work active={active} setActive={setActive} />
+      <Work />
     </main>
   );
 }
